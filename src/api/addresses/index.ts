@@ -16,15 +16,56 @@ export const useAdminAddressList = () => {
       }
       return data;
     },
+    //refetchOnWindowFocus: false,
   });
 }
+
+export const useGetSelectedAddress = () => { 
+  const { session } = useAuth();
+  const userId = session?.user.id;
+
+  return useQuery({
+    queryKey: ['addresses', { userId }],
+    queryFn: async () => {
+      if (!userId) return null;
+      const { data, error } = await supabase
+        .from('addresses')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('is_selected', true)
+        .single();
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+    //refetchOnWindowFocus: false,
+  });   
+}
+
+export const useAddress = (id: string) => { 
+  return useQuery({
+    queryKey: ['product', id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('addresses')
+        .select('*')
+        .eq('id', id)
+        .single();
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+  });
+};
 
 export const useMyAddressList = () => {
   const { session } = useAuth();
   const id = session?.user.id;
 
   return useQuery({
-    queryKey: ['addresses', { userId: id }],
+    queryKey: ['addresses', id],
     queryFn: async () => {
       if (!id) return null;
       const { data, error } = await supabase
@@ -37,6 +78,7 @@ export const useMyAddressList = () => {
       }
       return data;
     },
+    //refetchOnWindowFocus: false,
   });
 };
 
@@ -47,7 +89,7 @@ export const useInsertAddress = () => {
 
   return useMutation({
     async mutationFn(data: InsertTables<'addresses'>) {
-      const { error, data: newProduct } = await supabase
+      const { error, data: newAddress } = await supabase
         .from('addresses')
         .insert({ ...data, user_id: userId })
         .select()
@@ -56,7 +98,7 @@ export const useInsertAddress = () => {
       if (error) {
         throw new Error(error.message);
       }
-      return newProduct;
+      return newAddress;
     },
     async onSuccess() {
       await queryClient.invalidateQueries({queryKey: ['addresses']});
@@ -68,17 +110,13 @@ export const useUpdateAddress = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    async mutationFn({
-      id,
-      updatedFields,
-    }: {
-      id: number;
-      updatedFields: UpdateTables<'addresses'>;
-    }) {
+    async mutationFn(data: any) {
       const { error, data: updatedAddress } = await supabase
         .from('addresses')
-        .update(updatedFields)
-        .eq('id', id)
+        .update({
+          ...data,
+        })
+        .eq('id', data.id)
         .select()
         .single();
 
@@ -87,9 +125,12 @@ export const useUpdateAddress = () => {
       }
       return updatedAddress;
     },
-    async onSuccess(_, { id }) {
+    async onSuccess(_, { id, updatedFields }) {
       await queryClient.invalidateQueries({queryKey: ['addresses']});
       await queryClient.invalidateQueries({queryKey: ['addresses', id]});
+      await queryClient.setQueryData(['addresses', id], (oldData: any) => { 
+        oldData ? {...oldData, updatedFields} : oldData 
+      })
     },
   });
 };
@@ -98,7 +139,7 @@ export const useSelectAddress = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    async mutationFn({ id }: { id: number; }) {
+    async mutationFn(id: string) {
       // Update all addresses to set is_selected to false
       await supabase.from('addresses').update({ is_selected: false });
 
@@ -115,9 +156,29 @@ export const useSelectAddress = () => {
       }
       return updatedAddress;
     },
-    async onSuccess(_, { id }) {
+    async onSuccess(_, id) {
       await queryClient.invalidateQueries({queryKey: ['addresses']});
       await queryClient.invalidateQueries({queryKey: ['addresses', id]});
     },
   });
 };
+
+export const useDeleteAddress = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn(id: string) {
+      const { error } = await supabase
+        .from('addresses')
+        .delete()
+        .eq('id', id);
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ['addresses'] });
+    },
+  });
+}

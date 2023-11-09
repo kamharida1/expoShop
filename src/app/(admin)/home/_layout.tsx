@@ -3,10 +3,8 @@ import { Link, Stack, router } from "expo-router";
 import { Pressable } from "react-native";
 import Colors from "../../../constants/Colors";
 import { Text } from "react-native";
-import { useAuth } from "@/providers/AuthProvider";
 
 export default function HomeStack() {
-  const { logout } = useAuth();
   return (
     <Stack>
       <Stack.Screen
@@ -28,7 +26,7 @@ export default function HomeStack() {
             </Link>
           ),
           headerLeft: () => (
-            <Pressable onPress={logout}>
+            <Pressable onPress={()=>{}}>
               {({ pressed }) => (
                 <Text
                   style={{

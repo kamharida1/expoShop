@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 export const useInsertOrderItems = () => {
   return useMutation({
     async mutationFn(items: InsertTables<'order_items'>[]) {
-      const { error, data: newProduct } = await supabase
+      const { error, data: newOrderItem } = await supabase
         .from('order_items')
         .insert(items)
         .select();
@@ -13,7 +13,7 @@ export const useInsertOrderItems = () => {
       if (error) {
         throw new Error(error.message);
       }
-      return newProduct;
+      return newOrderItem;
     },
   });
 };

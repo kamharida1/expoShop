@@ -1,35 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
+import { View, Text, Platform, FlatList } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { useCart } from "@/providers/CartProvider";
+import CartListItem from "@/components/CartListItem";
+import {Button} from "@/components/Button";
+import { Link, router } from "expo-router";
+import formatPrice from "@/utils/naira_price";
 
-export default function ModalScreen() {
+const CartScreen = () => {
+  const { items, total } = useCart();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/modal.tsx" />
+    <View style={{ padding: 10 }}>
+      <FlatList
+        data={items}
+        renderItem={({ item }) => <CartListItem cartItem={item} />}
+        contentContainerStyle={{ gap: 10 }}
+      />
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      <Text style={{ marginTop: 20, fontSize: 20, fontWeight: "500" }}>
+        Total: {formatPrice(total)}
+      </Text>
+
+      <Button
+        onPress={() => router.push("/(user)/home/confirm-order")}
+        text="Checkout"
+      />
+
+      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+export default CartScreen;

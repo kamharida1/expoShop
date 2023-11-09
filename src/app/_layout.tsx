@@ -5,7 +5,7 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { supabase } from '@/lib/supabase';
+import NotificationProvider from "@/providers/NotificationsProvider";
 import UserProvider from '@/providers/UserProvider';
 import CartProvider from '@/providers/CartProvider';
 
@@ -53,14 +53,16 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <UserProvider>
         <QueryProvider>
-          <CartProvider>
-            <Stack>
-              <Stack.Screen name="(admin)" options={{ headerShown: false }} />
-              <Stack.Screen name="(user)" options={{ headerShown: false }} />
-              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-              <Stack.Screen name="cart" options={{ presentation: "modal" }} />
-            </Stack>
-          </CartProvider>
+          <NotificationProvider>
+            <CartProvider>
+              <Stack>
+                <Stack.Screen name="(admin)" options={{ headerShown: false }} />
+                <Stack.Screen name="(user)" options={{ headerShown: false }} />
+                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+                <Stack.Screen name="cart" options={{ presentation: "modal" }} />
+              </Stack>
+            </CartProvider>
+          </NotificationProvider>
         </QueryProvider>
       </UserProvider>
     </ThemeProvider>

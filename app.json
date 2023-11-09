@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "expoShop",
-    "slug": "expoShop",
+    "slug": "exposhop",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -30,13 +30,26 @@
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
-      ["expo-router", {
-        "asyncRoutes": "development"
-      }]
+      [
+        "expo-router",
+        {
+          "asyncRoutes": "development"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false,
+        "asyncRoutes": "development"
+      },
+      "eas": {
+        "projectId": "6d0e82ff-90de-4ac9-b16a-61358e656147"
+      }
+    },
+    "owner": "kamharida"
   }
 }

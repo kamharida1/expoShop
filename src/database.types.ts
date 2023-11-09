@@ -21,6 +21,8 @@ export interface Database {
           last_name: string | null
           phone: string | null
           state: string | null
+          street: string | null
+          street2: string | null
           user_id: string | null
           zip_code: string | null
         }
@@ -35,6 +37,8 @@ export interface Database {
           last_name?: string | null
           phone?: string | null
           state?: string | null
+          street?: string | null
+          street2?: string | null
           user_id?: string | null
           zip_code?: string | null
         }
@@ -49,6 +53,8 @@ export interface Database {
           last_name?: string | null
           phone?: string | null
           state?: string | null
+          street?: string | null
+          street2?: string | null
           user_id?: string | null
           zip_code?: string | null
         }
@@ -56,6 +62,7 @@ export interface Database {
           {
             foreignKeyName: "addresses_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -87,12 +94,14 @@ export interface Database {
           {
             foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
+            isOneToOne: false
             referencedRelation: "orders"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "order_items_product_id_fkey"
             columns: ["product_id"]
+            isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -100,7 +109,6 @@ export interface Database {
       }
       orders: {
         Row: {
-          address_id: string
           created_at: string
           id: string
           status: string | null
@@ -108,7 +116,6 @@ export interface Database {
           user_id: string | null
         }
         Insert: {
-          address_id: string
           created_at?: string
           id?: string
           status?: string | null
@@ -116,7 +123,6 @@ export interface Database {
           user_id?: string | null
         }
         Update: {
-          address_id?: string
           created_at?: string
           id?: string
           status?: string | null
@@ -125,14 +131,9 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "orders_address_id_fkey"
-            columns: ["address_id"]
-            referencedRelation: "addresses"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "orders_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
@@ -197,6 +198,7 @@ export interface Database {
           avatar_url: string | null
           created_at: string
           email: string | null
+          expo_push_token: string | null
           group: string | null
           id: string
           username: string | null
@@ -205,6 +207,7 @@ export interface Database {
           avatar_url?: string | null
           created_at?: string
           email?: string | null
+          expo_push_token?: string | null
           group?: string | null
           id: string
           username?: string | null
@@ -213,6 +216,7 @@ export interface Database {
           avatar_url?: string | null
           created_at?: string
           email?: string | null
+          expo_push_token?: string | null
           group?: string | null
           id?: string
           username?: string | null
@@ -221,6 +225,7 @@ export interface Database {
           {
             foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

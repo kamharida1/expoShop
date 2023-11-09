@@ -30,6 +30,23 @@ export type Product = {
   title: string | null
 };
 
+export type Address = {
+  city: string | null
+  country: string | null
+  created_at: string
+  email: string | null
+  first_name: string | null
+  id: string
+  is_selected: boolean | null
+  last_name: string | null
+  phone: string | null
+  state: string | null
+  street: string | null
+  street2: string | null
+  user_id: string | null
+  zip_code: string | null
+}
+
 export type CartItem = {
   id: string;
   quantity: number;
@@ -54,10 +71,10 @@ export type Order = {
   // status: OrderStatus;
 
   // order_items?: OrderItem[];
-  address_id: string
-  created_at: string
-  id: string
-  status: OrderStatus | null
+  address_id?: string
+  created_at?: string
+  id?: string
+  status?: OrderStatus | null
   total: number
   user_id: string | null
   order_items?: OrderItem[];
