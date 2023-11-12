@@ -16,10 +16,10 @@ export default function OrderDetailsScreen() {
   if (isLoading) {
     return <ActivityIndicator />;
   }
-  if (error) {
-    return <Text>Failed to fetch</Text>;
+  if (error || !order) {
+    return <Text>Failed to fetch order</Text>;
   }
-
+ 
   return (
     <View style={{ padding: 10, gap: 20, flex: 1 }}>
       <Stack.Screen options={{ title: `Order #${idString}` }} />

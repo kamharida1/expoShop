@@ -101,7 +101,7 @@ export interface Database {
           {
             foreignKeyName: "order_items_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -239,7 +239,13 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      OrderStatus: "New" | "Preparing" | "Delivering" | "Delivered"
+      OrderStatus:
+        | "New"
+        | "Preparing"
+        | "Shipped"
+        | "Delivered"
+        | "Cancelled"
+        | "Refunded"
     }
     CompositeTypes: {
       [_ in never]: never

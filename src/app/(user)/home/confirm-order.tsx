@@ -1,4 +1,4 @@
-import { useGetSelectedAddress, useMyAddressList, useSelectAddress } from "@/api/addresses";
+import { useGetSelectedAddress, useMyAddressList, useUpdateAddress } from "@/api/addresses";
 import { useCart } from "@/providers/CartProvider";
 import { InsertTables } from "@/types";
 import formatPrice from "@/utils/naira_price";
@@ -12,6 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import Animated, { FadeInDown, FadeInLeft, FadeInUp, SlideInUp } from "react-native-reanimated";
 import { Button } from "@/components/Button";
 import { Space } from "@/components/Space";
+import { supabase } from "@/lib/supabase";
 
 export default function ConfirmOrder() {
   const steps = [
@@ -30,7 +31,20 @@ export default function ConfirmOrder() {
 
   const { data: selectedAddress } = useGetSelectedAddress();
   const { data: addresses } = useMyAddressList();
-  const { mutate: selectAddress } = useSelectAddress();
+  const { mutate: selectAddress } = useUpdateAddress();
+
+  const updateAddress = async (addressId: string) => {
+    if (selectedAddress?.is_selected) {
+      await supabase
+        .from("addresses")
+        .update({ is_selected: false })
+        .eq("id", selectedAddress.id);
+    }
+    selectAddress({
+      id: addressId,
+      updatedFields: { is_selected: true },
+    });
+  };
 
   const pay = () => (
     <View style={{ paddingTop: 60, backgroundColor: "#888" }}>
@@ -146,10 +160,10 @@ export default function ConfirmOrder() {
                 }}
               >
                 {selectedAddress && selectedAddress.id === address?.id ? (
-                  <FontAwesome5 name="" size={20} color="#008397" />
+                  <FontAwesome5 name="dot-circle" size={20} color="#008397" />
                 ) : (
                   <Entypo
-                    onPress={() => selectAddress(address?.id)}
+                    onPress={() => updateAddress(address?.id)}
                     name="circle"
                     size={20}
                     color="#D0D0D0"

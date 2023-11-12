@@ -18,11 +18,9 @@ import ImageCarousel from "../../../components/Carousel";
 
 import { CardProductDetail } from "../../../components/CardProductDetail";
 import { ScrollView } from "react-native-gesture-handler";
-import { Product } from "@/types";
 import Colors from "@/constants/Colors";
 import { useProduct } from "@/api/products";
 import { useCart } from "@/providers/CartProvider";
-import { Button } from "@/components/Button";
 import { RemoteImage } from "@/components/RemoteImage";
 import { useState } from "react";
 

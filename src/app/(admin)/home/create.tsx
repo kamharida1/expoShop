@@ -43,13 +43,13 @@ export default function CreateProductScreen() {
  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   const { id: idString } = useLocalSearchParams();
-  const id = parseFloat(typeof idString === "string" ? idString : idString?.[0]);
+  // const id = parseFloat(typeof idString === "string" ? idString : idString?.[0]);
   
   const isUpdating = !!idString;
 
   const { mutate: insertProduct } = useInsertProduct();
   const { mutate: updateProduct } = useUpdateProduct();
-  const { data: updatingProduct } = useProduct(id.toString());
+  const { data: updatingProduct } = useProduct(idString as string);
   const { mutate: deleteProduct } = useDeleteProduct();
   
   const router = useRouter();
@@ -126,7 +126,7 @@ export default function CreateProductScreen() {
       setErrors("Price is required");
       return false;
     }
-    if (!sub_category) {
+    if (!sub_category && !updatingProduct) {
       setErrors("Sub Category is required");
       return false;
     }
@@ -190,7 +190,7 @@ export default function CreateProductScreen() {
     }
 
     updateProduct({
-      id,
+      id: idString as string,
       title,
       description,
       images: uploadedImages,
@@ -217,7 +217,7 @@ export default function CreateProductScreen() {
   }
 
   const onDelete = () => { 
-    deleteProduct(id.toString(), {
+    deleteProduct(idString as string, {
       onSuccess: () => {
         alert("Product deleted successfully");
         resetFields();

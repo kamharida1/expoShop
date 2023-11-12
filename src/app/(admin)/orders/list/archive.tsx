@@ -1,19 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Text, FlatList, ActivityIndicator } from "react-native";
+import OrderListItem from "@/components/OrderListItem";
+import { useAdminOrderList } from "@/api/orders";
 
 export default function OrdersScreen() {
+  const {
+    data: orders,
+    isLoading,
+    error,
+  } = useAdminOrderList({ archived: true });
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+  if (error) {
+    return <Text>Failed to fetch</Text>;
+  }
+  console.log(orders);
+
   return (
-    <View style={styles.container}>
-      <Text>Orders Archive</Text>
-    </View>
+    <FlatList
+      data={orders}
+      renderItem={({ item }) => <OrderListItem order={item} />}
+      contentContainerStyle={{ gap: 10, padding: 10 }}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffe",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

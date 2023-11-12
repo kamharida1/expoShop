@@ -12,6 +12,8 @@ export default function OrdersScreen() {
     return <Text>Failed to fetch</Text>;
   }
 
+  console.log('Orderlist item on /user/orders',orders);
+
   return (
     <FlatList
       data={orders}

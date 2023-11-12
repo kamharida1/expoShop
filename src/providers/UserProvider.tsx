@@ -13,6 +13,7 @@ type AuthData = {
   profile: any;
   loading: boolean;
   isAdmin: boolean;
+  signOut: () => void;
 };
 
 const AuthContext = createContext<AuthData>({
@@ -20,6 +21,7 @@ const AuthContext = createContext<AuthData>({
   loading: true,
   profile: null,
   isAdmin: false,
+  signOut: () =>{},
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -49,15 +51,31 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     };
 
     fetchSession();
-    supabase.auth.onAuthStateChange((event, session) => {
-      setSession(session);
-      setLoading(false);
+    const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth state change event:", event);
+      console.log("Auth session:", session);
+      console.log("Profile:", profile);
+      if (event === 'SIGNED_IN') {
+        setSession(session)
+        setLoading(false)
+      } else if (event === 'SIGNED_OUT') {
+        setSession(null)
+        setLoading(false)
+      }
     });
+
+    return () => {
+      unsubscribe.data.subscription.unsubscribe();
+    };
   }, []);
+
+  const signOut = () => { 
+    supabase.auth.signOut();
+  }
 
   return (
     <AuthContext.Provider
-      value={{ session, loading, profile, isAdmin: profile?.group === "admin" }}
+      value={{ session, loading, signOut, profile, isAdmin: profile?.group === "admin" }}
     >
       {children}
     </AuthContext.Provider>

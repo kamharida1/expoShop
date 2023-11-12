@@ -152,7 +152,7 @@ const CartProvider = ({ children }: PropsWithChildren) => {
   const checkout = async () => {
     try {
       insertOrder(
-        { total },
+        { total, status: "New" },
         {
           onSuccess: (newOrder) => {
             console.log("New order created:", newOrder); // Check if newOrder is valid

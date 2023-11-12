@@ -4,7 +4,7 @@ import { InsertTables, Tables, UpdateTables } from '@/types';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 export const useAdminOrderList = ({ archived = false }) => {
-  const statuses = archived ? ['Delivered'] : ['New', 'Cooking', 'Delivering'];
+  const statuses = archived ? ['Delivered'] : ['New', 'Preparing', 'Shipped', 'Delivered', 'Cancelled', 'Refunded'];
 
   return useQuery({
     queryKey: ['orders', { archived }],
@@ -93,7 +93,7 @@ export const useUpdateOrder = () => {
       id,
       updatedFields,
     }: {
-      id: number;
+      id: string;
       updatedFields: UpdateTables<'orders'>;
     }) {
       const { error, data: updatedOrder } = await supabase

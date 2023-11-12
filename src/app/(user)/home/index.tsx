@@ -7,17 +7,31 @@ import {
   BottomSheetModal,
 } from "@gorhom/bottom-sheet";
 
-import { useGetSelectedAddress, useMyAddressList, useSelectAddress } from "@/api/addresses";
+import { useGetSelectedAddress, useMyAddressList, useUpdateAddress } from "@/api/addresses";
 import { useRef } from "react";
 import { ScrollView } from "react-native";
 import { Pressable } from "react-native";
 import { router } from "expo-router";
+import { supabase } from "@/lib/supabase";
 
 export default function HomeScreen() {
   const { data: products, error, isLoading } = useProductList();
   const { data: selectedAddress } = useGetSelectedAddress();
-  const { mutate: selectAddress } = useSelectAddress();
+  const { mutate: selectAddress } = useUpdateAddress();
   const { data: addresses } = useMyAddressList();
+  
+  const updateAddress = async (addressId: string) => { 
+    if (selectedAddress?.is_selected) {
+      await supabase
+        .from("addresses")
+        .update({ is_selected: false })
+        .eq("id", selectedAddress.id);
+    }
+    selectAddress({
+      id: addressId,
+      updatedFields: { is_selected: true },
+    });
+  }
 
   const addressSheetRef = useRef<BottomSheetModal>(null);
   const openAddress = () => {
@@ -123,7 +137,7 @@ export default function HomeScreen() {
               <Pressable
                 key={index}
                 onPress={() => {
-                  selectAddress(address.id);
+                  updateAddress(address.id);
                   closeAddress();
                 }}
                 style={{

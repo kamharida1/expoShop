@@ -43,6 +43,34 @@ export const useGetSelectedAddress = () => {
   });   
 }
 
+// export const useSelectAddress = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     async mutationFn(id: string) {
+//       // Update all addresses to set is_selected to false
+//       await supabase.from('addresses').update({ is_selected: false });
+
+//       // Set the selected address to is_selected: true
+//       const { error, data: updatedAddress } = await supabase
+//         .from('addresses')
+//         .update({is_selected: true})
+//         .eq('id', id)
+//         .select()
+//         .single();
+
+//       if (error) {
+//         throw new Error(error.message);
+//       }
+//       return updatedAddress;
+//     },
+//     async onSuccess(_, id) {
+//       await queryClient.invalidateQueries({queryKey: ['addresses']});
+//       await queryClient.invalidateQueries({queryKey: ['addresses', id]});
+//     },
+//   });
+// };
+
 export const useAddress = (id: string) => { 
   return useQuery({
     queryKey: ['product', id],
@@ -110,13 +138,18 @@ export const useUpdateAddress = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    async mutationFn(data: any) {
+    async mutationFn({
+      id,
+      updatedFields
+    }: {
+      id: string;
+      updatedFields: UpdateTables<'addresses'>;
+      }) {
+      await supabase.from("addresses").update({ is_selected: false });
       const { error, data: updatedAddress } = await supabase
         .from('addresses')
-        .update({
-          ...data,
-        })
-        .eq('id', data.id)
+        .update(updatedFields)
+        .eq('id', id)
         .select()
         .single();
 
@@ -135,33 +168,6 @@ export const useUpdateAddress = () => {
   });
 };
 
-export const useSelectAddress = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    async mutationFn(id: string) {
-      // Update all addresses to set is_selected to false
-      await supabase.from('addresses').update({ is_selected: false });
-
-      // Set the selected address to is_selected: true
-      const { error, data: updatedAddress } = await supabase
-        .from('addresses')
-        .update({is_selected: true})
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (error) {
-        throw new Error(error.message);
-      }
-      return updatedAddress;
-    },
-    async onSuccess(_, id) {
-      await queryClient.invalidateQueries({queryKey: ['addresses']});
-      await queryClient.invalidateQueries({queryKey: ['addresses', id]});
-    },
-  });
-};
 
 export const useDeleteAddress = () => {
   const queryClient = useQueryClient();

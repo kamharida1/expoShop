@@ -29,8 +29,8 @@ export default function useCreateUser() {
         password: profile.password,
       });
 
-        await SecureStore.setItemAsync("authKeyEmail", profile.email);
-        await SecureStore.setItemAsync("authKeyPassword", profile.password);
+        // await SecureStore.setItemAsync("authKeyEmail", profile.email);
+        // await SecureStore.setItemAsync("authKeyPassword", profile.password);
 
       if (SignUpError) {
         throw new Error(SignUpError.message);
@@ -49,7 +49,7 @@ export default function useCreateUser() {
         if (upsertError) {
           throw new Error(upsertError.message);
         }
-        //return upsertData;
+        return upsertData;
       }
     },
     // onSuccess: (data) => {
