@@ -1,6 +1,6 @@
-import { View, Text} from "react-native";
+import { View, Text } from "react-native";
 import { supabase } from "../../lib/supabase";
-import tw from 'twrnc'
+import tw from "twrnc";
 import { Button } from "@/components/Button";
 import { router } from "expo-router";
 
@@ -13,10 +13,11 @@ const ProfileScreen = () => {
         title="Sign out"
         onPress={logout}
       /> */}
-      <Button onPress={() => {
-        supabase.auth.signOut();
-        router.push("/");
-      }}
+      <Button
+        onPress={() => {
+          supabase.auth.signOut();
+          router.push("/");
+        }}
         text="Sign out"
       />
     </View>

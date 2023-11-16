@@ -1,14 +1,30 @@
-import { useDeleteAddress, useMyAddressList, useSelectAddress } from "@/api/addresses";
+import { useDeleteAddress, useGetSelectedAddress, useMyAddressList, useUpdateAddress, } from "@/api/addresses";
 import { useAuth } from "@/providers/UserProvider";
 import { Link, Stack, router } from "expo-router";
 import { ActivityIndicator, FlatList, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 
 import { AntDesign, Feather, MaterialIcons, Entypo } from "@expo/vector-icons";
+import { supabase } from "@/lib/supabase";
 
 export default function AddressScreen() {
   const { data: addresses, error, isLoading } = useMyAddressList();
-  const { mutate: selectAddress } = useSelectAddress();
-  const {mutate: deleteAddress} = useDeleteAddress();
+  const { data: selectedAddress } = useGetSelectedAddress();
+
+  const { mutate: selectAddress } = useUpdateAddress();
+  const { mutate: deleteAddress } = useDeleteAddress();
+  
+    const updateAddress = async (addressId: string) => {
+      if (selectedAddress?.is_selected) {
+        await supabase
+          .from("addresses")
+          .update({ is_selected: false })
+          .eq("id", selectedAddress.id);
+      }
+      selectAddress({
+        id: addressId,
+        updatedFields: { is_selected: true },
+      });
+    };
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -131,7 +147,7 @@ export default function AddressScreen() {
                 <Pressable
                   onPress={() =>
                     router.push({
-                      pathname: "/(user)/home/add-address",
+                      pathname: "/(user)/home/create-address",
                       params: { id: address.id },
                     })
                   }
@@ -162,7 +178,7 @@ export default function AddressScreen() {
                 </Pressable>
 
                 <Pressable
-                  onPress={() => selectAddress(address.id)}
+                  onPress={() => updateAddress(address.id)}
                   style={{
                     backgroundColor: "#F5F5F5",
                     paddingHorizontal: 10,

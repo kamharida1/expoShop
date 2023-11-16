@@ -68,7 +68,7 @@ export default function ProductDetail() {
   return (
     <ScrollView
       style={{
-        backgroundColor: "white"
+        backgroundColor: "white",
       }}
       scrollEventThrottle={16}
       showsVerticalScrollIndicator={false}
@@ -82,11 +82,7 @@ export default function ProductDetail() {
             style={{ width, height, marginTop: 25 }}
             key={index}
           >
-            <RemoteImage
-              style={{ width, height }}
-              path={item}
-              fallback=""
-            />
+            <RemoteImage style={{ width, height }} path={item} fallback="" />
             <View
               style={{
                 padding: 20,
@@ -309,7 +305,7 @@ export default function ProductDetail() {
       <Pressable
         onPress={addToCart}
         style={{
-          backgroundColor: "#FFC72C",
+          backgroundColor: Colors.light.tint || "#FFC72C",
           padding: 15,
           borderRadius: 15,
           justifyContent: "center",
@@ -320,18 +316,23 @@ export default function ProductDetail() {
       >
         {addedToCart ? (
           <View>
-            <Text style={{
-              //fontFamily: "AirBold",
-              fontSize: 17
-            }}>
+            <Text
+              style={{
+                //fontFamily: "AirBold",
+                fontSize: 17,
+              }}
+            >
               Added to Cart
             </Text>
           </View>
         ) : (
-            <Text style={{
-              //fontFamily: "AirBold",
-              fontSize: 17
-            }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: "white",
+              fontSize: 17,
+            }}
+          >
             Add to Cart
           </Text>
         )}
@@ -339,7 +340,7 @@ export default function ProductDetail() {
       <Pressable
         onPress={() => alert("Buy Now")}
         style={{
-          backgroundColor: "#FFAC1C",
+          backgroundColor: Colors.light.tint || "#FFC72C",
           padding: 15,
           borderRadius: 15,
           justifyContent: "center",
@@ -348,10 +349,13 @@ export default function ProductDetail() {
           marginBottom: 20,
         }}
       >
-        <Text style={{
-          //fontFamily: "AirBold",
-          fontSize: 17
-        }}>
+        <Text
+          style={{
+            fontWeight: "bold",
+            color: "white",
+            fontSize: 17,
+          }}
+        >
           Buy Now
         </Text>
       </Pressable>

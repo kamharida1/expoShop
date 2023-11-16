@@ -134,6 +134,46 @@ export const useInsertAddress = () => {
   });
 };
 
+export const useEditAddress = () => {
+  const queryClient = useQueryClient();
+  const { session } = useAuth();
+  const userId = session?.user.id;
+
+  return useMutation({
+    async mutationFn(data: any) {
+      const { data: address, error } = await supabase
+        .from('addresses')
+        .update({
+          first_name: data.first_name,
+          last_name: data.last_name,
+          street: data.street,
+          email: data.email,
+          street2: data.street2,
+          city: data.city,
+          user_id: userId,
+          state: data.state,
+          zip_code: data.zip_code,
+          country: data.country,
+          phone: data.phone,
+          is_selected: data.is_selected,
+        })
+        .eq('id', data.id)
+        .select()
+        .single();
+      
+      if (error) {
+        throw new Error(error.message);
+      }
+      return address;
+    },
+      
+    async onSuccess(_, { id }) {
+      await queryClient.invalidateQueries({ queryKey: ['addresses'] });
+      await queryClient.invalidateQueries({ queryKey: ['addresses', id] });
+    },
+  });
+};
+
 export const useUpdateAddress = () => {
   const queryClient = useQueryClient();
 

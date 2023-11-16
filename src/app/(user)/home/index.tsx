@@ -13,6 +13,7 @@ import { ScrollView } from "react-native";
 import { Pressable } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
+import { ProductHorizontalItem } from "@/components/ProductHorizontalItem";
 
 export default function HomeScreen() {
   const { data: products, error, isLoading } = useProductList();
@@ -53,10 +54,17 @@ export default function HomeScreen() {
     <BottomSheetModalProvider>
       <FlatList
         data={products}
-        renderItem={({ item }) => <ProductListItem product={item} />}
-        numColumns={2}
-        contentContainerStyle={{ gap: 10, padding: 10 }}
-        columnWrapperStyle={{ gap: 10 }}
+        renderItem={({ item, index }) => <ProductHorizontalItem key={index} product={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        //numColumns={2}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          padding: 10,
+          paddingBottom: 40,
+          backgroundColor: "#fff"
+        }}
+        //columnWrapperStyle={{ gap: 10 }}
         ListHeaderComponent={() => (
           <Pressable
             onPress={openAddress}

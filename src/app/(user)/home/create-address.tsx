@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { InsertTables } from "@/types";
 import { router, useLocalSearchParams } from "expo-router";
-import { useAddress, useInsertAddress, useUpdateAddress } from "@/api/addresses";
+import { useAddress, useEditAddress, useInsertAddress } from "@/api/addresses";
 import { useDeleteProduct } from "@/api/products";
 import { useAuth } from "@/providers/UserProvider";
 import { Alert, ScrollView } from "react-native";
@@ -44,7 +44,7 @@ const AddressSchema = Yup.object().shape({
 export default function CreateAddress() {
   const [province, setProvince] = useState<string>("");
   const [town, setTown] = useState<string>("");
-  const [first_name, setFirstName] = useState<string>("");
+  const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
@@ -61,15 +61,15 @@ export default function CreateAddress() {
   };
 
   const { id: idString } = useLocalSearchParams();
-  const id = parseFloat(
-    typeof idString === "string" ? idString : idString?.[0]
-  );
+  // const id = parseFloat(
+  //   typeof idString === "string" ? idString : idString?.[0]
+  // );
 
   const isUpdating = !!idString;
 
   const { mutate: insertAddress} = useInsertAddress();
-  const { mutate: updateAddress} = useUpdateAddress();
-  const { data: updatingAddress } = useAddress(id.toString());
+  const { mutate: updateAddress} = useEditAddress();
+  const { data: updatingAddress } = useAddress(idString as string);
   const { mutate: deleteAddress } = useDeleteProduct();
 
   useEffect(() => {
@@ -136,13 +136,14 @@ export default function CreateAddress() {
   const onUpdate =  () => {
     updateAddress(
       {
-        first_name: updatingAddress?.first_name,
-        last_name: updatingAddress?.last_name,
-        email: updatingAddress?.email,
-        phone : updatingAddress?.phone,
-        street: updatingAddress?.street,
-        street2: updatingAddress?.street2,
-        zip_code: updatingAddress?.zip_code,
+        id: idString as string,
+        first_name,
+        last_name,
+        email,
+        phone,
+        street,
+        street2,
+        zip_code,
         city: town,
         state: province,
         user_id: session?.user.id,
@@ -161,7 +162,7 @@ export default function CreateAddress() {
   };
 
   const onDelete = () => {
-    deleteAddress(id.toString(), {
+    deleteAddress(idString as string, {
       onSuccess: () => {
         alert("Address deleted successfully");
         resetFields();
@@ -257,7 +258,12 @@ export default function CreateAddress() {
 
         <Button onPress={onSubmit} text={isUpdating ? "Update" : "Create"} />
         {isUpdating && (
-          <Text onPress={confirmDelete} style={{}}>
+          <Text onPress={confirmDelete} style={{
+            alignSelf: "center",
+            fontWeight: "bold",
+            color: Colors.light.tint,
+            marginVertical: 10,
+          }}>
             Delete
           </Text>
         )}
