@@ -1,5 +1,5 @@
 export * from "./Brands";
-export * from "./Carousel";
+export * from "./Carousell";
 export * from "./Category";
 export * from "./Deals";
 export * from "./Header";

@@ -14,6 +14,7 @@ import { Pressable } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { ProductHorizontalItem } from "@/components/ProductHorizontalItem";
+import { Brands, Carousell } from "@/components/Home";
 
 export default function HomeScreen() {
   const { data: products, error, isLoading } = useProductList();
@@ -54,46 +55,52 @@ export default function HomeScreen() {
     <BottomSheetModalProvider>
       <FlatList
         data={products}
-        renderItem={({ item, index }) => <ProductHorizontalItem key={index} product={item} />}
-        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item, index }) => (
+          <ProductHorizontalItem key={index} product={item} />
+        )}
+        keyExtractor={(item) => item.id}
         //numColumns={2}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           flexGrow: 1,
           padding: 10,
           paddingBottom: 40,
-          backgroundColor: "#fff"
+          backgroundColor: "#fff",
         }}
         //columnWrapperStyle={{ gap: 10 }}
         ListHeaderComponent={() => (
-          <Pressable
-            onPress={openAddress}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
-              padding: 10,
-              paddingTop: 10,
-              backgroundColor: "#AFEEEE",
-            }}
-          >
-            <Ionicons name="location-outline" size={24} color="black" />
+          // <Pressable
+          //   onPress={openAddress}
+          //   style={{
+          //     flexDirection: "row",
+          //     alignItems: "center",
+          //     gap: 5,
+          //     padding: 10,
+          //     paddingTop: 10,
+          //     backgroundColor: "#AFEEEE",
+          //   }}
+          // >
+          //   <Ionicons name="location-outline" size={24} color="black" />
 
-            <View>
-              {selectedAddress ? (
-                <Text>
-                  Deliver to {selectedAddress?.first_name} -{" "}
-                  {selectedAddress?.street}
-                </Text>
-              ) : (
-                <Text style={{ fontSize: 13, fontWeight: "500" }}>
-                  Add Address
-                </Text>
-              )}
-            </View>
+          //   <View>
+          //     {selectedAddress ? (
+          //       <Text>
+          //         Deliver to {selectedAddress?.first_name} -{" "}
+          //         {selectedAddress?.street}
+          //       </Text>
+          //     ) : (
+          //       <Text style={{ fontSize: 13, fontWeight: "500" }}>
+          //         Add Address
+          //       </Text>
+          //     )}
+          //   </View>
 
-            <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
-          </Pressable>
+          //   <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+          // </Pressable>
+          <>
+            <Brands />
+            <Carousell />
+          </>
         )}
       />
 
