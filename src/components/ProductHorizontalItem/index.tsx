@@ -19,7 +19,8 @@ type ProductHorizontalItemProps = {
 const ProductHorizontalItem = memo<ProductHorizontalItemProps>(
   ({ product, key }) => {
     const segments = useSegments();
-
+    //console.log("product Image : ", product.image);
+    
     return (
       <Link href={`/${segments[0]}/home/${product.id}`} asChild>
         <Pressable key={key} style={styles.container}>

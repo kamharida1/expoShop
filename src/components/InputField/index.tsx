@@ -26,7 +26,7 @@ const InputField = memo((props: any) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          borderWidth: 1,
+          borderBottomWidth: 1.2,
           borderColor: hasError ? "red" : "#D0D0D0",
           borderRadius: 5,
           padding: 15,

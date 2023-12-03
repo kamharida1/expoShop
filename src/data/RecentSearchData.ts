@@ -1,10 +1,10 @@
-import Service1 from '../assets/service1.jpeg';
-import Service2 from '../assets/service2.jpeg';
-import Service3 from '../assets/service3.jpeg';
-import Service4 from '../assets/service4.jpeg';
-import Service5 from '../assets/service5.png';
-import Service6 from '../assets/service6.jpeg';
-import Service7 from '../assets/service7.jpeg';
+import Service1 from '../assets/images/service1.jpeg';
+import Service2 from '../assets/images/service2.jpeg';
+import Service3 from '../assets/images/service3.jpeg';
+import Service4 from '../assets/images/service4.jpeg';
+import Service5 from '../assets/images/service5.png';
+import Service6 from '../assets/images/service6.jpeg';
+import Service7 from '../assets/images/service7.jpeg';
 
 export const RecentSearchData = [
   {

@@ -14,7 +14,8 @@ import { Pressable } from "react-native";
 import { router } from "expo-router";
 import { supabase } from "@/lib/supabase";
 import { ProductHorizontalItem } from "@/components/ProductHorizontalItem";
-import { Brands, Carousell } from "@/components/Home";
+import { Brands, Carousell, Category, Header, Services } from "@/components/Home";
+import { SafeAreaView } from "moti";
 
 export default function HomeScreen() {
   const { data: products, error, isLoading } = useProductList();
@@ -53,6 +54,33 @@ export default function HomeScreen() {
 
   return (
     <BottomSheetModalProvider>
+      <Header />
+      <Pressable
+        onPress={openAddress}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          //gap: 5,
+          padding: 10,
+          paddingTop: 10,
+          backgroundColor: "#AFEEEE",
+        }}
+      >
+        <Ionicons name="location-outline" size={24} color="black" />
+
+        <View>
+          {selectedAddress ? (
+            <Text>
+              Deliver to {selectedAddress?.first_name} -{" "}
+              {selectedAddress?.street}
+            </Text>
+          ) : (
+            <Text style={{ fontSize: 13, fontWeight: "500" }}>Add Address</Text>
+          )}
+        </View>
+
+        <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
+      </Pressable>
       <FlatList
         data={products}
         renderItem={({ item, index }) => (
@@ -69,37 +97,11 @@ export default function HomeScreen() {
         }}
         //columnWrapperStyle={{ gap: 10 }}
         ListHeaderComponent={() => (
-          // <Pressable
-          //   onPress={openAddress}
-          //   style={{
-          //     flexDirection: "row",
-          //     alignItems: "center",
-          //     gap: 5,
-          //     padding: 10,
-          //     paddingTop: 10,
-          //     backgroundColor: "#AFEEEE",
-          //   }}
-          // >
-          //   <Ionicons name="location-outline" size={24} color="black" />
-
-          //   <View>
-          //     {selectedAddress ? (
-          //       <Text>
-          //         Deliver to {selectedAddress?.first_name} -{" "}
-          //         {selectedAddress?.street}
-          //       </Text>
-          //     ) : (
-          //       <Text style={{ fontSize: 13, fontWeight: "500" }}>
-          //         Add Address
-          //       </Text>
-          //     )}
-          //   </View>
-
-          //   <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
-          // </Pressable>
           <>
-            <Brands />
+            <Category />
             <Carousell />
+            <Services />
+            <Brands />
           </>
         )}
       />
@@ -171,7 +173,11 @@ export default function HomeScreen() {
                 }}
               >
                 <View
-                  style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 3,
+                  }}
                 >
                   <Text style={{ fontSize: 13, fontWeight: "bold" }}>
                     {address?.first_name} {address?.last_name}

@@ -1,19 +1,19 @@
-import Fresh from '../assets/fresh.jpeg';
-import Deals from '../assets/deals.png';
-import Beauty from '../assets/beauty.png';
-import Mobiles from '../assets/mobiles.jpeg';
-import MiniTV from '../assets/minitv.jpeg';
-import Fashion from '../assets/fashion.png';
-import Prime from '../assets/prime.jpeg';
-import Electronics from '../assets/electronics.jpeg';
-import Home from '../assets/home.jpeg';
-import Travel from '../assets/travel.jpeg';
-import Furniture from '../assets/furniture.png';
-import Pharmacy from '../assets/pharmacy.jpeg';
-import Movies from '../assets/movies.png';
-import Books from '../assets/books.jpeg';
-import HomeAppliances from '../assets/home-appliances.png';
-import More from '../assets/more.png';
+import Fresh from '../assets/images/fresh.jpeg';
+import Deals from '../assets/images/deals.png';
+import Beauty from '../assets/images/beauty.png';
+import Mobiles from '../assets/images/mobiles.jpeg';
+import MiniTV from '../assets/images/minitv.jpeg';
+import Fashion from '../assets/images/fashion.png';
+import Prime from '../assets/images/prime.jpeg';
+import Electronics from '../assets/images/electronics.jpeg';
+import Home from '../assets/images/home.jpeg';
+import Travel from '../assets/images/travel.jpeg';
+import Furniture from '../assets/images/furniture.png';
+import Pharmacy from '../assets/images/pharmacy.jpeg';
+import Movies from '../assets/images/movies.png';
+import Books from '../assets/images/books.jpeg';
+import HomeAppliances from '../assets/images/home-appliances.png';
+import More from '../assets/images/more.png';
 
 export const Categories = [
   {

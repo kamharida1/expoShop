@@ -14,7 +14,6 @@ import { InputField } from '../../components/InputField';
 import { ButtonSubmit } from '../../components/ButtonSubmit';
 import useCreateUser from '../../api/auth/useCreateUser';
 import { AppContainer } from '../../components/AppContainer';
-import { useAuth } from '@/providers/AuthProvider';
 
 interface FormValues {
   email: string;
@@ -42,7 +41,6 @@ const validationSchema = Yup.object().shape({
 
 const SignUp = () => {
   const { mutate, isPending } = useCreateUser();
-  const { signup, user } = useAuth();
 
   const handleSignUp = async (values: FormValues) => { 
     const { email, password } = values;

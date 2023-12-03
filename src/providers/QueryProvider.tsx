@@ -4,8 +4,8 @@ import { PropsWithChildren } from "react";
 const client = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 0,
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 2,
+      //staleTime: 1000 * 60 * 5, // 5 minutes
     },
   },
 });

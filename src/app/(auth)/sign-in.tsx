@@ -11,7 +11,6 @@ import { InputField } from "../../components/InputField";
 import { ButtonSubmit } from "../../components/ButtonSubmit";
 import { Link, router } from "expo-router";
 import useLogin from "../../api/auth/useLogin";
-import { useAuth } from "@/providers/AuthProvider";
 import { AppContainer } from "@/components/AppContainer";
 
 const validationSchema = Yup.object().shape({
