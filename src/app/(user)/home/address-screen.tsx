@@ -35,7 +35,7 @@ export default function AddressScreen() {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 50 }}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 50, backgroundColor: "#fff" }}>
       <Stack.Screen options={{ headerShown: false }} />
       <View
         style={{

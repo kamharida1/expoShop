@@ -188,7 +188,7 @@ export default function CreateAddress() {
   };
   
   return (
-    <ScrollView style={{ marginTop: 50, marginBottom: 60 }}>
+    <ScrollView style={{ flex: 1 }}>
       <View style={{ height: 50, backgroundColor: "#00CED1" }}>
         <Text
           style={{

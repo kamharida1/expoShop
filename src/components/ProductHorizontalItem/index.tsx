@@ -97,13 +97,13 @@ const styles = StyleSheet.create({
   },
   productImageSection: {
     width: "40%",
-    backgroundColor: "#eff0f1",
+    backgroundColor: "#fff", //"#eff0f1",
     justifyContent: "center",
   },
   productImg: {
     width: "100%",
     height: 150,
-    resizeMode: "contain",
+    resizeMode: "center",
   },
   sponsored: {
     fontSize: 11,
